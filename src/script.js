@@ -10,6 +10,18 @@ const gui = new GUI();
 let width = window.innerWidth;
 let height = window.innerHeight;
 
+const debugObj = {
+  createSphere: () => {
+    createSphere(Math.random() * 0.5, {
+      x: (Math.random() - 0.5) * 3,
+      y: 3,
+      z: (Math.random() - 0.5) * 4,
+    });
+  },
+};
+
+gui.add(debugObj, 'createSphere');
+
 //=============== Textures =======================
 const textureLoader = new THREE.TextureLoader();
 const cubeTextureLoader = new THREE.CubeTextureLoader();
@@ -147,7 +159,7 @@ const createSphere = (radius, position) => {
   });
 };
 
-createSphere(0.5, { x: 0, y: 4, z: 0 });
+createSphere(0.5, { x: 0, y: 3, z: 0 });
 
 //=================== Animate ========================
 const clock = new THREE.Clock();
