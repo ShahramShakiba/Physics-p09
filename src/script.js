@@ -37,6 +37,16 @@ const sphereBody = new CANNON.Body({
 
 world.addBody(sphereBody);
 
+//=========== Floor
+const floorShape = new CANNON.Plane();
+const floorBody = new CANNON.Body();
+floorBody.mass = 0; // default is 0 therefore we can omit it
+floorBody.addShape(floorShape);
+floorBody.quaternion.setFromAxisAngle(new CANNON.Vec3(-1, 0, 0), Math.PI / 2);
+// floorBody.position; // it's in the center of the scene, we don't want to move it - don't touch the position
+
+world.addBody(floorBody);
+
 /* Test sphere */
 const sphere = new THREE.Mesh(
   new THREE.SphereGeometry(0.5, 32, 32),
@@ -124,9 +134,8 @@ const tick = () => {
   //===== Update Physics World
   world.step(1 / 60, deltaTime, 3);
 
-  sphere.position.x = sphereBody.position.x;
-  sphere.position.y = sphereBody.position.y;
-  sphere.position.z = sphereBody.position.z;
+  // Update positions based-on physics world
+  sphere.position.copy(sphereBody.position);
 
   controls.update();
   renderer.render(scene, camera);
