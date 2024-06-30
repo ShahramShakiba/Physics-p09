@@ -30,10 +30,75 @@ With physics, you can create dynamic environments where objects react to each ot
 
 
 ### Libraries 
-...
+There are many ways of adding physics to your project, and it depends on what you want to achieve. <br/> You can create your own physics with some mathematics and solutions like Raycaster, but if you wish to get realistic physics with tension, friction, bouncing, constraints, pivots, etc. and all that in 3D space, you better use a library. <br/><br/>
+There are multiple available libraries. First, you must decide if you need a 3D library or a 2D library. While you might think it has to be a 3D library because Three.js is all about 3D, you might be wrong. 2D libraries are usually much more performant, and if you can sum up your experience physics up to 2D collisions, you better use a 2D library. <br/><br/>
 
+#### For 3D physics, there are three main libraries:
+1. Ammo.js
+   - Website: http://schteppe.github.io/ammo.js-demos/
+   - Git repository: https://github.com/kripken/ammo.js/
+   - Documentation: No documentation
+   - Direct JavaScript port of Bullet (a physics engine written in C++)
+   - A little heavy
+   - Still updated by a community
 
-<br/>
+2. Cannon.js
+   - Website: https://lo-th.github.io/Oimo.js/
+   - Git repository: https://github.com/lo-th/Oimo.js
+   - Documentation: http://lo-th.github.io/Oimo.js/docs.html
+   - Lighter than Ammo.js
+   - Easier to implement than Ammo.js
+   - Mostly maintained by one developer
+   - Hasn't been updated for 2 years 
+
+3. Rapier
+   - Website: https://rapier.rs/
+   - Git repository: https://github.com/dimforge/rapier
+   - Documentation: https://rapier.rs/javascript3d/index.html
+   - Very similar to Cannon.js
+   - Good performance
+   - Currently maintained
+
+<br/><br/>
+
+#### 2D Physics
+For 2D physics, there are many libraries, but here's the most popular: <br/>
+1. Matter.js
+   - Website: https://brm.io/matter-js/
+   - Git repository: https://github.com/liabru/matter-js
+   - Documentation: https://brm.io/matter-js/docs/
+   - Mostly maintained by one developer
+   - Still kind of updated
+
+2. P2.js
+   - Website: https://schteppe.github.io/p2.js/
+   - Git repository: https://github.com/schteppe/p2.js
+   - Documentation: http://schteppe.github.io/p2.js/docs/
+   - Mostly maintained by one developer (Same as Cannon.js)
+   - Hasn't been update for 2 years
+
+3. Planck.js
+   - Website: https://piqnt.com/planck.js/
+   - Git repository: https://github.com/shakiba/planck.js
+   - Documentation: https://github.com/shakiba/planck.js/tree/master/docs
+   - Mostly maintained by one developer
+   - Still updated nowadays
+  
+4. Box2D.js
+   - Website: http://kripken.github.io/box2d.js/demo/webgl/box2d.html
+   - Git repository: https://github.com/kripken/box2d.js/
+   - Documentation: No documentation
+   - Mostly maintained by one developer (same as Ammo.js)
+   - Still updated nowadays
+
+5. Rapier
+   - Website: https://rapier.rs/
+   - Git repository: https://github.com/dimforge/rapier
+   - Documentation: https://rapier.rs/javascript2d/index.html
+   - Same library as for 3D
+
+     
+<br/><br/>
 
 <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Eyes.png" alt="Eyes" width="25" height="25" /> Feel free to delve into the code as it has been written in a straightforward manner for easy understanding.
 <br/> <br/> 
@@ -47,12 +112,14 @@ With physics, you can create dynamic environments where objects react to each ot
 
 > _Which Concepts Have I Covered_: <br/>
 
-01. _<h4>...</h4>_
-02. _<h4>...</h4>_
-03. _<h4>...</h4>_
-04. _<h4>...</h4>_
-05. _<h4>...</h4>_
-06. _<h4>...</h4>_
+01. _<h4>Install Cannon.js a 3D Physics library: `  npm install --save cannon  ` </h4>_
+02. _<h4>Creating World, Shape and Body in Physics world and Updating Threejs world according to the Physics world</h4>_
+03. _<h4>Create a static Floor using quaternion.setFromAxisAngle(new CANNON.Vec3(-1, 0, 0), Math.PI / 2)</h4>_
+04. _<h4>Make the Ball bounce using Contact Material (combination of the two Materials and contains properties for when objects collide)</h4>_
+05. _<h4>Apply Forces using applyForce and applyLocalForce</h4>_
+06. _<h4>Handle Multiple Objects by creating a Function</h4>_
+07. _<h4>Add Boxes to the Scene</h4>_
+08. _<h4>...</h4>_
 
 <br/><br/>
 
