@@ -1,7 +1,7 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import GUI from 'lil-gui';
+import Cannon from 'cannon';
 import * as THREE from 'three';
-import CANNON from 'cannon';
 
 const canvas = document.querySelector('canvas.webgl');
 const scene = new THREE.Scene();
@@ -23,26 +23,43 @@ const environmentMapTexture = cubeTextureLoader.load([
   '/textures/environmentMaps/0/nz.png',
 ]);
 
-//================ Physics =======================
-const world = new CANNON.World();
+//================= Physics ========================
+const world = new Cannon.World();
 world.gravity.set(0, -9.82, 0);
 
+//============ Material
+const defaultMaterial = new Cannon.Material('default');
+const defaultContactMaterial = new Cannon.ContactMaterial(
+  defaultMaterial,
+  defaultMaterial,
+  {
+    friction: 0.1, // default: 0.3
+    restitution: 0.7, // default: 0.3
+  }
+);
+
+world.addContactMaterial(defaultContactMaterial);
+world.defaultContactMaterial = defaultContactMaterial;
+
 //============ Sphere
-const sphereShape = new CANNON.Sphere(0.5);
-const sphereBody = new CANNON.Body({
+const sphereShape = new Cannon.Sphere(0.5);
+const sphereBody = new Cannon.Body({
   mass: 1,
-  position: new CANNON.Vec3(0, 3, 0),
+  position: new Cannon.Vec3(0, 4, 0),
   shape: sphereShape,
+  // material: defaultMaterial,
 });
 
 world.addBody(sphereBody);
 
 //=========== Floor
-const floorShape = new CANNON.Plane();
-const floorBody = new CANNON.Body();
+const floorShape = new Cannon.Plane();
+const floorBody = new Cannon.Body();
 floorBody.mass = 0; // default is 0 therefore we can omit it
 floorBody.addShape(floorShape);
-floorBody.quaternion.setFromAxisAngle(new CANNON.Vec3(-1, 0, 0), Math.PI / 2);
+floorBody.quaternion.setFromAxisAngle(new Cannon.Vec3(-1, 0, 0), Math.PI / 2);
+// floorBody.material = defaultMaterial;
+
 // floorBody.position; // it's in the center of the scene, we don't want to move it - don't touch the position
 
 world.addBody(floorBody);
