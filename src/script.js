@@ -1,6 +1,7 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import GUI from 'lil-gui';
 import * as THREE from 'three';
+import CANNON from 'cannon';
 
 const canvas = document.querySelector('canvas.webgl');
 const scene = new THREE.Scene();
@@ -21,6 +22,20 @@ const environmentMapTexture = cubeTextureLoader.load([
   '/textures/environmentMaps/0/pz.png',
   '/textures/environmentMaps/0/nz.png',
 ]);
+
+//================ Physics =======================
+const world = new CANNON.World();
+world.gravity.set(0, -9.82, 0);
+
+//============ Sphere
+const sphereShape = new CANNON.Sphere(0.5);
+const sphereBody = new CANNON.Body({
+  mass: 1,
+  position: new CANNON.Vec3(0, 3, 0),
+  shape: sphereShape,
+});
+
+world.addBody(sphereBody);
 
 /* Test sphere */
 const sphere = new THREE.Mesh(
@@ -56,6 +71,7 @@ const ambientLight = new THREE.AmbientLight(0xffffff, 2.1);
 scene.add(ambientLight);
 
 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
+directionalLight.position.set(5, 5, 5);
 directionalLight.castShadow = true;
 directionalLight.shadow.mapSize.set(1024, 1024);
 directionalLight.shadow.camera.far = 15;
@@ -63,7 +79,6 @@ directionalLight.shadow.camera.left = -7;
 directionalLight.shadow.camera.top = 7;
 directionalLight.shadow.camera.right = 7;
 directionalLight.shadow.camera.bottom = -7;
-directionalLight.position.set(5, 5, 5);
 scene.add(directionalLight);
 
 //================= Camera ==========================
@@ -78,6 +93,7 @@ controls.enableDamping = true;
 //================= Renderer ========================
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
+  antialias: true,
 });
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
