@@ -5,7 +5,7 @@ import * as THREE from 'three';
 
 const canvas = document.querySelector('canvas.webgl');
 const scene = new THREE.Scene();
-const gui = new GUI();
+const gui = new GUI({ title: 'Physics' });
 
 let width = window.innerWidth;
 let height = window.innerHeight;
@@ -18,9 +18,18 @@ const debugObj = {
       z: (Math.random() - 0.5) * 4,
     });
   },
+
+  createBox: () => {
+    createBox(Math.random(), Math.random(), Math.random(), {
+      x: (Math.random() - 0.5) * 3,
+      y: 3,
+      z: (Math.random() - 0.5) * 3,
+    });
+  },
 };
 
-gui.add(debugObj, 'createSphere');
+gui.add(debugObj, 'createSphere').name('Sphere');
+gui.add(debugObj, 'createBox').name('Box');
 
 //=============== Textures =======================
 const textureLoader = new THREE.TextureLoader();
@@ -129,6 +138,7 @@ window.addEventListener('resize', () => {
 //=================== Utils ========================
 const objects = [];
 
+//=============== Sphere
 const sphereGeometry = new THREE.SphereGeometry(1, 20, 20);
 const sphereMaterial = new THREE.MeshStandardMaterial({
   metalness: 0.3,
@@ -144,7 +154,7 @@ const createSphere = (radius, position) => {
   sphere.position.copy(position);
   scene.add(sphere);
 
-  //======== Cannon.js Body
+  //=== Cannon.js Body
   const shape = new Cannon.Sphere(radius);
   const body = new Cannon.Body({
     mass: 1,
@@ -162,6 +172,40 @@ const createSphere = (radius, position) => {
 
 createSphere(0.5, { x: 0, y: 3, z: 0 });
 
+//=============== Box
+const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+const boxMaterial = new THREE.MeshStandardMaterial({
+  metalness: 0.3,
+  roughness: 0.4,
+  envMap: environmentMapTexture,
+  envMapIntensity: 0.5,
+});
+
+const createBox = (width, height, depth, position) => {
+  const box = new THREE.Mesh(boxGeometry, boxMaterial);
+  box.scale.set(width, height, depth);
+  box.castShadow = true;
+  box.position.copy(position);
+  scene.add(box);
+
+  //=== Cannon.js Body
+  const shape = new Cannon.Box(
+    new Cannon.Vec3(width / 2, height / 2, depth / 2)
+  );
+  const body = new Cannon.Body({
+    mass: 1,
+    shape,
+    material: defaultMaterial,
+  });
+  body.position.copy(position);
+  world.addBody(body);
+
+  objects.push({
+    box,
+    body,
+  });
+};
+
 //=================== Animate ========================
 const clock = new THREE.Clock();
 let prevTime = 0;
@@ -172,10 +216,16 @@ const tick = () => {
   prevTime = elapsedTime;
 
   //===== Update Physics World
-  world.step(1 / 60, deltaTime, 3); // 01
+  world.step(1 / 60, deltaTime, 3);
 
   for (const obj of objects) {
-    obj.sphere.position.copy(obj.body.position);
+    if (obj.sphere) {
+      obj.sphere.position.copy(obj.body.position);
+      obj.sphere.quaternion.copy(obj.body.quaternion); // Rotation
+    } else if (obj.box) {
+      obj.box.position.copy(obj.body.position);
+      obj.box.quaternion.copy(obj.body.quaternion);
+    }
   }
 
   controls.update();
@@ -235,4 +285,11 @@ scene.add(sphere);
   
   /// Update positions based-on physics world - 02
   sphere.position.copy(sphereBody.position);
+*/
+
+/* Creating "Box" in Physics world
+
+* const shape = new Cannon.Box(width / 2, height / 2, depth / 2);
+
+- since for creating "Box" in Physics world we are starting from the center of the Box, we need to divide width, height, depth by 2
 */
