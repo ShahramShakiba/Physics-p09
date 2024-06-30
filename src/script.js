@@ -27,10 +27,25 @@ const debugObj = {
       z: (Math.random() - 0.5) * 3,
     });
   },
+
+  reset: () => {
+    for (const obj of objects) {
+      //=== Remove Body
+      obj.body.removeEventListener('collide', playHitSound);
+      world.removeBody(obj.body);
+
+      //=== Remove Meshes
+      scene.remove(obj.sphere, obj.box);
+    }
+
+    //=== Empty Objects array
+    objects.splice(0, objects.length);
+  },
 };
 
 gui.add(debugObj, 'createSphere').name('Sphere');
 gui.add(debugObj, 'createBox').name('Box');
+gui.add(debugObj, 'reset').name('Reset');
 
 //================ hitSound ======================
 const hitSounds = [
