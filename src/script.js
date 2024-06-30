@@ -1,6 +1,6 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import GUI from 'lil-gui';
-import Cannon from 'cannon';
+import CANNON from 'cannon';
 import * as THREE from 'three';
 
 const canvas = document.querySelector('canvas.webgl');
@@ -45,12 +45,14 @@ const environmentMapTexture = cubeTextureLoader.load([
 ]);
 
 //================= Physics ========================
-const world = new Cannon.World();
+const world = new CANNON.World();
+world.broadphase = new CANNON.SAPBroadphase(world);
+world.allowSleep = true;
 world.gravity.set(0, -9.82, 0);
 
 //============ Material
-const defaultMaterial = new Cannon.Material('default');
-const defaultContactMaterial = new Cannon.ContactMaterial(
+const defaultMaterial = new CANNON.Material('default');
+const defaultContactMaterial = new CANNON.ContactMaterial(
   defaultMaterial,
   defaultMaterial,
   {
@@ -63,11 +65,11 @@ world.addContactMaterial(defaultContactMaterial);
 world.defaultContactMaterial = defaultContactMaterial;
 
 //=========== Floor
-const floorShape = new Cannon.Plane();
-const floorBody = new Cannon.Body();
+const floorShape = new CANNON.Plane();
+const floorBody = new CANNON.Body();
 floorBody.mass = 0; // default is 0 therefore we can omit it
 floorBody.addShape(floorShape);
-floorBody.quaternion.setFromAxisAngle(new Cannon.Vec3(-1, 0, 0), Math.PI / 2);
+floorBody.quaternion.setFromAxisAngle(new CANNON.Vec3(-1, 0, 0), Math.PI / 2);
 // floorBody.material = defaultMaterial;
 
 // floorBody.position; // it's in the center of the scene, we don't want to move it - don't touch the position
@@ -154,9 +156,9 @@ const createSphere = (radius, position) => {
   sphere.position.copy(position);
   scene.add(sphere);
 
-  //=== Cannon.js Body
-  const shape = new Cannon.Sphere(radius);
-  const body = new Cannon.Body({
+  //=== CANNON.js Body
+  const shape = new CANNON.Sphere(radius);
+  const body = new CANNON.Body({
     mass: 1,
     shape,
     material: defaultMaterial,
@@ -188,11 +190,11 @@ const createBox = (width, height, depth, position) => {
   box.position.copy(position);
   scene.add(box);
 
-  //=== Cannon.js Body
-  const shape = new Cannon.Box(
-    new Cannon.Vec3(width / 2, height / 2, depth / 2)
+  //=== CANNON.js Body
+  const shape = new CANNON.Box(
+    new CANNON.Vec3(width / 2, height / 2, depth / 2)
   );
-  const body = new Cannon.Body({
+  const body = new CANNON.Body({
     mass: 1,
     shape,
     material: defaultMaterial,
@@ -248,7 +250,7 @@ tick();
 
 /* Test
 ///============ Sphere
-const sphereShape = new Cannon.Sphere(0.5);
+const sphereShape = new CANNON.Sphere(0.5);
 const sphereBody = new Cannon.Body({
   mass: 1,
   position: new Cannon.Vec3(0, 4, 0),
