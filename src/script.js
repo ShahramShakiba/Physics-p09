@@ -33,8 +33,8 @@ const defaultContactMaterial = new Cannon.ContactMaterial(
   defaultMaterial,
   defaultMaterial,
   {
-    friction: 0.1, // default: 0.3
-    restitution: 0.7, // default: 0.3
+    friction: 0.1, // default: 0.3 - the resistance
+    restitution: 0.7, // default: 0.3 - bounce
   }
 );
 
@@ -49,6 +49,11 @@ const sphereBody = new Cannon.Body({
   shape: sphereShape,
   // material: defaultMaterial,
 });
+
+sphereBody.applyLocalForce(
+  new Cannon.Vec3(100, 0, 0), // force
+  new Cannon.Vec3(0, 0, 0) // localPoint
+);
 
 world.addBody(sphereBody);
 
@@ -148,10 +153,12 @@ const tick = () => {
   const deltaTime = elapsedTime - prevTime;
   prevTime = elapsedTime;
 
-  //===== Update Physics World
-  world.step(1 / 60, deltaTime, 3);
+  //===== Update Physics World           force            worldPoint
+  sphereBody.applyForce(new Cannon.Vec3(-0.2, 0, 0), sphereBody.position);
 
-  // Update positions based-on physics world
+  world.step(1 / 60, deltaTime, 3); // 01
+
+  // Update positions based-on physics world - 02
   sphere.position.copy(sphereBody.position);
 
   controls.update();
