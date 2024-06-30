@@ -10,6 +10,7 @@ const gui = new GUI({ title: 'Physics' });
 let width = window.innerWidth;
 let height = window.innerHeight;
 
+//=============== Debug GUI =====================
 const debugObj = {
   createSphere: () => {
     createSphere(Math.random() * 0.5, {
@@ -30,6 +31,40 @@ const debugObj = {
 
 gui.add(debugObj, 'createSphere').name('Sphere');
 gui.add(debugObj, 'createBox').name('Box');
+
+//================ hitSound ======================
+const hitSounds = [
+  new Audio('./sounds/hit2.mp3'),
+  new Audio('./sounds/hit3.mp3'),
+];
+
+let canPlaySound = true;
+const soundDelay = 50; // Milliseconds
+
+const playHitSound = (collision) => {
+  if (!canPlaySound) return;
+
+  const impactStrength = collision.contact.getImpactVelocityAlongNormal();
+
+  if (impactStrength > 1.15) {
+    canPlaySound = false;
+
+    // Choose a random sound
+    const hitSound = hitSounds[Math.floor(Math.random() * hitSounds.length)];
+
+    // Set volume based on impact strength
+    hitSound.volume = Math.min(1, impactStrength / 10); // scale volume
+
+    // Play the sound
+    hitSound.currentTime = 0;
+    hitSound.play();
+
+    // Reset canPlaySound after delay
+    setTimeout(() => {
+      canPlaySound = true;
+    }, soundDelay);
+  }
+};
 
 //=============== Textures =======================
 const textureLoader = new THREE.TextureLoader();
@@ -164,6 +199,7 @@ const createSphere = (radius, position) => {
     material: defaultMaterial,
   });
   body.position.copy(position);
+  body.addEventListener('collide', playHitSound);
   world.addBody(body);
 
   objects.push({
@@ -200,6 +236,7 @@ const createBox = (width, height, depth, position) => {
     material: defaultMaterial,
   });
   body.position.copy(position);
+  body.addEventListener('collide', playHitSound);
   world.addBody(body);
 
   objects.push({
