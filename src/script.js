@@ -114,9 +114,19 @@ window.addEventListener('resize', () => {
 
 //=================== Animate ========================
 const clock = new THREE.Clock();
+let prevTime = 0;
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
+  const deltaTime = elapsedTime - prevTime;
+  prevTime = elapsedTime;
+
+  //===== Update Physics World
+  world.step(1 / 60, deltaTime, 3);
+
+  sphere.position.x = sphereBody.position.x;
+  sphere.position.y = sphereBody.position.y;
+  sphere.position.z = sphereBody.position.z;
 
   controls.update();
   renderer.render(scene, camera);
@@ -124,3 +134,14 @@ const tick = () => {
 };
 
 tick();
+
+/* step() 
+  step(
+    1. a fixed time stamp,  // 1/60 - run at 60 frame per second
+
+    2. how much time passed since the last step,  // deltaTime
+
+    3. how much iterations the world can apply to catch up with a 
+    potential delay,  // 3 - three steps
+     )
+*/
