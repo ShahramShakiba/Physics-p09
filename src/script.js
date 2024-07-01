@@ -49,27 +49,28 @@ gui.add(debugObj, 'reset').name('Reset');
 
 //================ hitSound ======================
 const hitSound = new Audio('./sounds/hit3.mp3');
-let canPlaySound = true;
+let canPlaySound = false;
 const soundDelay = 50; // Milliseconds
 
 const playHitSound = (collision) => {
-  if (!canPlaySound) return;
+  if (canPlaySound) return;
 
+  // Access "contact" property inside of this variable(you can name it anything)
   const impactStrength = collision.contact.getImpactVelocityAlongNormal();
 
   if (impactStrength > 1.15) {
-    canPlaySound = false;
+    canPlaySound = true;
 
     // Set volume based on impact strength
     hitSound.volume = Math.min(1, impactStrength / 25); // scale volume
 
-    // Play the sound
+    // Play the sound from the beginning
     hitSound.currentTime = 0;
     hitSound.play();
 
     // Reset canPlaySound after delay
     setTimeout(() => {
-      canPlaySound = true;
+      canPlaySound = false;
     }, soundDelay);
   }
 };
