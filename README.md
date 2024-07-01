@@ -119,7 +119,10 @@ For 2D physics, there are many libraries, but here's the most popular: <br/>
 05. _<h4>Apply Forces using applyForce and applyLocalForce</h4>_
 06. _<h4>Handle Multiple Objects by creating a Function</h4>_
 07. _<h4>Add Boxes to the Scene</h4>_
-08. _<h4>...</h4>_
+08. _<h4>Performance - Broadphase to get better performances | SAPBroadphase(Sweep And Prune)-tests bodies on arbitrary axes during multiple steps. Also for get better performances add "Sleep" property</h4>_
+09. _<h4>Listen to the Events on Body like "collide", "sleep" - Play a hit sound when elements collide</h4>_
+10. _<h4>Remove Things from 3D Environment and Physics world</h4>_
+10. _<h4>...</h4>_
 
 <br/><br/>
 
