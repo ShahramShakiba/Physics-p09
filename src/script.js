@@ -80,14 +80,14 @@ world.broadphase = new CANNON.SAPBroadphase(world);
 world.allowSleep = true;
 world.gravity.set(0, -9.82, 0);
 
-//============ Material
+//============ Material - Bouncing
 const defaultMaterial = new CANNON.Material('default');
 const defaultContactMaterial = new CANNON.ContactMaterial(
-  defaultMaterial,
+  defaultMaterial, // consider one for Floor and one for the Ball
   defaultMaterial,
   {
     friction: 0.1, // default: 0.3 - the resistance
-    restitution: 0.7, // default: 0.3 - bounce
+    restitution: 0.6, // default: 0.3 - bounce
   }
 );
 
@@ -188,7 +188,7 @@ const createSphere = (radius, position) => {
   const body = new CANNON.Body({
     mass: 1,
     shape,
-    material: defaultMaterial,
+    // material: defaultMaterial,
   });
   body.position.copy(position);
   body.addEventListener('collide', playHitSound);
@@ -223,7 +223,7 @@ const createBox = (width, height, depth, position) => {
   const body = new CANNON.Body({
     mass: 1,
     shape,
-    material: defaultMaterial,
+    // material: defaultMaterial,
   });
   body.position.copy(position);
   body.addEventListener('collide', playHitSound);
@@ -317,8 +317,34 @@ scene.add(sphere);
 */
 
 /* Creating "Box" in Physics world
-
 * const shape = new Cannon.Box(width / 2, height / 2, depth / 2);
 
 - since for creating "Box" in Physics world we are starting from the center of the Box, we need to divide width, height, depth by 2
+*/
+
+/* broadphase - use for performances
+
+* Broad-phase Collision Detection: 
+  Broad-phase collision detection algorithms are used to quickly identify potential collisions between objects before performing detailed collision checks.
+
+- default is: NaiveBroadphase
+  . tests every bodies against every other bodies
+  . checks all object pairs for potential collisions.
+
+* world.broadphase = new CANNON.SAPBroadphase(world);
+  - SAPBroadphase : 
+    tests bodies on arbitrary axes during multiple steps
+
+    The Sweep and Prune (SAP) algorithm sorts objects along the x-axis and efficiently prunes pairs of objects that cannot collide, 
+    
+    . reducing the number of actual collision checks needed.
+
+    . It sorts objects along three axes and efficiently identifies potential collision pairs, making it more suitable for larger simulations.
+*/
+
+/* Sleep
+* world.allowSleep = true;
+
+- Sleeping Objects: 
+  Objects that are not moving or interacting actively with other objects can be put to sleep to optimize performance.
 */
