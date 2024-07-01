@@ -1,6 +1,6 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import GUI from 'lil-gui';
-import CANNON from 'cannon';
+import * as CANNON from 'cannon-es';
 import * as THREE from 'three';
 
 const canvas = document.querySelector('canvas.webgl');
@@ -14,17 +14,17 @@ let height = window.innerHeight;
 const debugObj = {
   createSphere: () => {
     createSphere(Math.random() * 0.5, {
-      x: (Math.random() - 0.5) * 3,
-      y: 3,
-      z: (Math.random() - 0.5) * 4,
+      x: (Math.random() - 0.5) * 8,
+      y: 5,
+      z: (Math.random() - 0.5) * 8,
     });
   },
 
   createBox: () => {
     createBox(Math.random(), Math.random(), Math.random(), {
-      x: (Math.random() - 0.5) * 3,
-      y: 3,
-      z: (Math.random() - 0.5) * 3,
+      x: (Math.random() - 0.5) * 8,
+      y: 5,
+      z: (Math.random() - 0.5) * 8,
     });
   },
 
@@ -48,11 +48,7 @@ gui.add(debugObj, 'createBox').name('Box');
 gui.add(debugObj, 'reset').name('Reset');
 
 //================ hitSound ======================
-const hitSounds = [
-  new Audio('./sounds/hit2.mp3'),
-  new Audio('./sounds/hit3.mp3'),
-];
-
+const hitSound = new Audio('./sounds/hit3.mp3');
 let canPlaySound = true;
 const soundDelay = 50; // Milliseconds
 
@@ -64,11 +60,8 @@ const playHitSound = (collision) => {
   if (impactStrength > 1.15) {
     canPlaySound = false;
 
-    // Choose a random sound
-    const hitSound = hitSounds[Math.floor(Math.random() * hitSounds.length)];
-
     // Set volume based on impact strength
-    hitSound.volume = Math.min(1, impactStrength / 10); // scale volume
+    hitSound.volume = Math.min(1, impactStrength / 25); // scale volume
 
     // Play the sound
     hitSound.currentTime = 0;
@@ -80,19 +73,6 @@ const playHitSound = (collision) => {
     }, soundDelay);
   }
 };
-
-//=============== Textures =======================
-const textureLoader = new THREE.TextureLoader();
-const cubeTextureLoader = new THREE.CubeTextureLoader();
-
-const environmentMapTexture = cubeTextureLoader.load([
-  '/textures/environmentMaps/0/px.png',
-  '/textures/environmentMaps/0/nx.png',
-  '/textures/environmentMaps/0/py.png',
-  '/textures/environmentMaps/0/ny.png',
-  '/textures/environmentMaps/0/pz.png',
-  '/textures/environmentMaps/0/nz.png',
-]);
 
 //================= Physics ========================
 const world = new CANNON.World();
@@ -128,13 +108,11 @@ world.addBody(floorBody);
 
 //================= Floor =========================
 const floor = new THREE.Mesh(
-  new THREE.PlaneGeometry(10, 10),
+  new THREE.PlaneGeometry(150, 150),
   new THREE.MeshStandardMaterial({
-    color: '#777777',
-    metalness: 0.3,
-    roughness: 0.4,
-    envMap: environmentMapTexture,
-    envMapIntensity: 0.5,
+    color: '#c1e499',
+    metalness: 0.8,
+    roughness: 0.8,
   })
 );
 floor.receiveShadow = true;
@@ -142,11 +120,11 @@ floor.rotation.x = -Math.PI * 0.5;
 scene.add(floor);
 
 //================== Lights ========================
-const ambientLight = new THREE.AmbientLight(0xffffff, 2.1);
+const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
 scene.add(ambientLight);
 
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
-directionalLight.position.set(5, 5, 5);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+directionalLight.position.set(5, 3, 1);
 directionalLight.castShadow = true;
 directionalLight.shadow.mapSize.set(1024, 1024);
 directionalLight.shadow.camera.far = 15;
@@ -158,7 +136,7 @@ scene.add(directionalLight);
 
 //================= Camera ==========================
 const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 100);
-camera.position.set(-3, 3, 3);
+camera.position.set(0, 5, 7);
 scene.add(camera);
 
 //============== Orbit Controls =====================
@@ -193,9 +171,8 @@ const objects = [];
 //=============== Sphere
 const sphereGeometry = new THREE.SphereGeometry(1, 20, 20);
 const sphereMaterial = new THREE.MeshStandardMaterial({
-  metalness: 0.3,
-  roughness: 0.4,
-  envMap: environmentMapTexture,
+  metalness: 0.2,
+  roughness: 0,
 });
 
 const createSphere = (radius, position) => {
@@ -230,8 +207,6 @@ const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
 const boxMaterial = new THREE.MeshStandardMaterial({
   metalness: 0.3,
   roughness: 0.4,
-  envMap: environmentMapTexture,
-  envMapIntensity: 0.5,
 });
 
 const createBox = (width, height, depth, position) => {
