@@ -33,7 +33,7 @@ With physics, you can create dynamic environments where objects react to each ot
 There are many ways of adding physics to your project, and it depends on what you want to achieve. <br/> You can create your own physics with some mathematics and solutions like Raycaster, but if you wish to get realistic physics with tension, friction, bouncing, constraints, pivots, etc. and all that in 3D space, you better use a library. <br/><br/>
 There are multiple available libraries. First, you must decide if you need a 3D library or a 2D library. While you might think it has to be a 3D library because Three.js is all about 3D, you might be wrong. 2D libraries are usually much more performant, and if you can sum up your experience physics up to 2D collisions, you better use a 2D library. <br/><br/>
 
-#### For 3D physics, there are three main libraries:
+> #### _For "3D Physics", there are three main libraries:_
 1. Ammo.js
    - Website: http://schteppe.github.io/ammo.js-demos/
    - Git repository: https://github.com/kripken/ammo.js/
@@ -59,10 +59,9 @@ There are multiple available libraries. First, you must decide if you need a 3D 
    - Good performance
    - Currently maintained
 
-<br/><br/>
+<br/>
 
-#### 2D Physics
-For 2D physics, there are many libraries, but here's the most popular: <br/>
+> #### _For "2D Physics", there are many libraries, but here's the most popular:_ 
 1. Matter.js
    - Website: https://brm.io/matter-js/
    - Git repository: https://github.com/liabru/matter-js
@@ -101,40 +100,34 @@ For 2D physics, there are many libraries, but here's the most popular: <br/>
 <br/><br/>
 
 <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Eyes.png" alt="Eyes" width="25" height="25" /> Feel free to delve into the code as it has been written in a straightforward manner for easy understanding.
-<br/> <br/> 
-
-> [!IMPORTANT]
->> ### It is crucial to understand the ....:
->> - ...
+<br/> <br/> <br/> 
 
 
-<br/><br/>
-
-> _Which Concepts Have I Covered_: <br/>
+> ### _Which Concepts Have I Covered_: <br/>
 
 01. _<h4>Install Cannon.js a 3D Physics library: `  npm install --save cannon  ` </h4>_
-02. _<h4>Creating World, Shape and Body in Physics world and Updating Threejs world according to the Physics world</h4>_
-03. _<h4>Create a static Floor using quaternion.setFromAxisAngle(new CANNON.Vec3(-1, 0, 0), Math.PI / 2)</h4>_
-04. _<h4>Make the Ball bounce using Contact Material (combination of the two Materials and contains properties for when objects collide)</h4>_
-05. _<h4>Apply Forces using applyForce and applyLocalForce</h4>_
-06. _<h4>Handle Multiple Objects by creating a Function</h4>_
-07. _<h4>Add Boxes to the Scene</h4>_
-08. _<h4>Performance - Broadphase to get better performances | SAPBroadphase(Sweep And Prune)-tests bodies on arbitrary axes during multiple steps. Also for get better performances add "Sleep" property</h4>_
-09. _<h4>Listen to the Events on Body like "collide", "sleep" - Play a hit sound when elements collide</h4>_
-10. _<h4>Remove Things from 3D Environment and Physics world</h4>_
-10. _<h4>...</h4>_
-
+02. _<h4>Generating a world with shapes and bodies within a physics simulation and synchronizing the Three.js world with real-time updates based on the physics simulation.</h4>_
+03. _<h4>Generate a stationary floor element utilizing the following technical specifications: quaternion.setFromAxisAngle(new CANNON.Vec3(-1, 0, 0), Math.PI / 2)</h4>_
+04. _<h4>Implement a bouncing functionality for the Ball by utilizing Contact Material which is a blend of two Materials and encompasses collision properties.</h4>_
+05. _<h4>Utilize the applyForce and applyLocalForce methods to exert external forces on an object.</h4>_
+06. _<h4>Manage multiple entities by implementing a function</h4>_
+07. _<h4>Incorporate geometric entities known as Boxes into the visual environment</h4>_
+08. _<h4>Optimize performance by utilizing the SAPBroadphase (Sweep And Prune) algorithm, which conducts body tests along arbitrary axes across multiple iterations. Additionally, enhance performance by incorporating the "Sleep" property.</h4>_
+09. _<h4>Monitor body events such as "collide" and "sleep" and trigger a hit sound when elements collide.</h4>_
+10. _<h4>Utilize a reset button to eliminate objects from a 3D environment and physics simulation.</h4>_
+    
 <br/><br/>
 
 <!-------- try it live -------->
-#### _Give it a go in real-time and give me a Star_ &nbsp; <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Glowing%20Star.png" alt="Glowing Star" width="25"  /> <a href="https://shahram-shakiba.vercel.app/" target="_blank"> &nbsp; _Physics_ </a> 
+#### _Give it a go in real-time and give me a Star_ &nbsp; <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Glowing%20Star.png" alt="Glowing Star" width="25"  /> <a href="https://physics-shahram.netlify.app/" target="_blank"> &nbsp; _Physics_ </a> 
 
 <br/>
 
 <!--------- Video --------->
-<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/main/Objects/Clapper%20Board.webp" alt="Clapper Board" width="35" /> &nbsp; 
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/main/Objects/Clapper%20Board.webp" alt="Clapper Board" width="35" /> &nbsp; Experience the auditory effects of colliding objects within the Physics Simulation Environment. 
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Backhand%20Index%20Pointing%20Down%20Medium-Dark%20Skin%20Tone.png" alt="Backhand Index Pointing Down Medium-Dark Skin Tone" width="25" height="25" />
 
-
+https://github.com/ShahramShakiba/Physics-p09/assets/110089830/2d7dede6-70dc-42d1-9985-8e931d5cb795
 
   <br/> 
 
